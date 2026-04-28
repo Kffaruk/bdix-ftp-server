@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BDIX FTP SERVER LIST - Complete</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #080c18;
+  --bg2: #0d1120;
+  --card: #111827;
+  --border: #1e2d4a;
+  --accent: #00d4ff;
+  --accent2: #ff6b35;
+  --green: #00ff88;
+  --purple: #a78bfa;
+  --yellow: #fbbf24;
+  --pink: #f472b6;
+  --text: #c8d8f0;
+  --muted: #4a6080;
+  --heading: #e8f4ff;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Rajdhani', sans-serif;
+  min-height: 100vh;
+}
+
+/* ── TOP NAV ── */
+.topnav {
+  background: #070b16;
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 200;
+  padding: 0 20px;
+}
+.topnav-inner {
+  max-width: 1300px; margin: 0 auto;
+  display: flex; align-items: center; gap: 0; flex-wrap: wrap;
+}
+.site-title {
+  font-size: 15px; font-weight: 700; color: var(--accent);
+  letter-spacing: 1px; padding: 14px 20px 14px 0;
+  border-right: 1px solid var(--border); margin-right: 4px;
+  white-space: nowrap;
+}
+.nav-tabs { display: flex; flex-wrap: wrap; gap: 0; }
+.nav-tab {
+  font-size: 12px; font-weight: 600; letter-spacing: 0.5px;
+  color: var(--muted); padding: 14px 14px;
+  cursor: pointer; border: none; background: none;
+  text-transform: uppercase; transition: color 0.2s, border-color 0.2s;
+  border-bottom: 2px solid transparent; white-space: nowrap;
+}
+.nav-tab:hover { color: var(--text); }
+.nav-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* ── SEARCH BAR ── */
+.searchbar-wrap {
+  max-width: 1300px; margin: 0 auto;
+  padding: 16px 20px 0;
+}
+.searchbar {
+  width: 100%; background: var(--card);
+  border: 1px solid var(--border); border-radius: 10px;
+  padding: 12px 18px; color: var(--text);
+  font-family: 'Rajdhani', sans-serif; font-size: 15px;
+  outline: none; transition: border-color 0.2s;
+}
+.searchbar:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,212,255,0.08); }
+.searchbar::placeholder { color: var(--muted); }
+
+/* ── MAIN ── */
+main { max-width: 1300px; margin: 0 auto; padding: 24px 20px 60px; }
+
+/* ── SECTION ── */
+.section { display: none; }
+.section.active { display: block; }
+
+.section-header {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 24px; padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+.section-icon { font-size: 24px; }
+.section-title-text h2 { font-size: 20px; font-weight: 700; color: var(--heading); }
+.section-title-text p { font-size: 12px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; margin-top: 2px; }
+
+/* ── GRID ── */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+/* ── CARD ── */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px; padding: 16px;
+  transition: border-color 0.2s, transform 0.15s, box-shadow 0.2s;
+  position: relative; overflow: hidden;
+}
+.card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  opacity: 0; transition: opacity 0.3s;
+}
+.card:hover { border-color: rgba(0,212,255,0.25); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+.card:hover::before { opacity: 1; }
+
+.card-name {
+  font-size: 15px; font-weight: 700; color: var(--heading);
+  margin-bottom: 12px; letter-spacing: 0.3px;
+}
+
+.link-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 4px 6px; border-radius: 5px;
+  text-decoration: none; transition: background 0.15s;
+  margin-bottom: 2px;
+}
+.link-item:hover { background: rgba(0,212,255,0.06); }
+.dot {
+  width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
+}
+.dot-green { background: var(--green); box-shadow: 0 0 5px var(--green); }
+.dot-blue  { background: var(--accent); box-shadow: 0 0 5px var(--accent); }
+.dot-orange{ background: var(--accent2); box-shadow: 0 0 5px var(--accent2); }
+.dot-fb    { background: #4267b2; }
+.dot-purple{ background: var(--purple); box-shadow: 0 0 5px var(--purple); }
+.dot-yellow{ background: var(--yellow); }
+.link-url {
+  font-size: 12px; font-family: 'JetBrains Mono', monospace;
+  color: var(--text); word-break: break-all; line-height: 1.4;
+  transition: color 0.15s;
+}
+.link-item:hover .link-url { color: var(--accent); }
+
+/* section accent colors */
+.sec-tv .card::before    { background: linear-gradient(90deg,transparent,var(--purple),transparent); }
+.sec-torrent .card::before { background: linear-gradient(90deg,transparent,var(--yellow),transparent); }
+.sec-intl .card::before  { background: linear-gradient(90deg,transparent,var(--pink),transparent); }
+.sec-isp .card::before   { background: linear-gradient(90deg,transparent,var(--green),transparent); }
+.sec-speed .card::before { background: linear-gradient(90deg,transparent,var(--accent2),transparent); }
+.sec-ftp .card::before   { background: linear-gradient(90deg,transparent,var(--accent),transparent); }
+
+.sec-tv:hover    { border-color: rgba(167,139,250,0.3) !important; }
+.sec-torrent:hover { border-color: rgba(251,191,36,0.3) !important; }
+.sec-intl:hover  { border-color: rgba(244,114,182,0.3) !important; }
+.sec-isp:hover   { border-color: rgba(0,255,136,0.3) !important; }
+.sec-speed:hover { border-color: rgba(255,107,53,0.3) !important; }
+
+/* ── LEGEND ── */
+.legend {
+  display: flex; flex-wrap: wrap; gap: 16px;
+  padding: 12px 16px; background: var(--card);
+  border: 1px solid var(--border); border-radius: 10px;
+  margin-bottom: 20px; font-size: 12px;
+}
+.legend-item { display: flex; align-items: center; gap: 6px; }
+
+/* ── HIDDEN ── */
+.hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav class="topnav">
+  <div class="topnav-inner">
+    <div class="site-title">⚡ BDIX FTP SERVER LIST</div>
+    <div class="nav-tabs">
+      <button class="nav-tab active" onclick="showSection('ftp')">📁 Media &amp; FTP</button>
+      <button class="nav-tab" onclick="showSection('tv')">📺 Live TV</button>
+      <button class="nav-tab" onclick="showSection('torrent')">🧲 Torrent &amp; IPTV</button>
+      <button class="nav-tab" onclick="showSection('intl')">🌍 International</button>
+      <button class="nav-tab" onclick="showSection('isp')">🔗 BD ISP List</button>
+      <button class="nav-tab" onclick="showSection('speed')">⚡ Speed Test</button>
+    </div>
+  </div>
+</nav>
+
+<!-- SEARCH -->
+<div class="searchbar-wrap">
+  <input class="searchbar" type="text" id="searchInput" placeholder="🔍 যেকোনো লিংক বা নাম খুঁজুন..." oninput="filterCards()">
+</div>
+
+<main>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 1: MEDIA & FTP SERVERS
+════════════════════════════════════════════ -->
+<div class="section active" id="sec-ftp">
+  <div class="section-header">
+    <span class="section-icon">📁</span>
+    <div class="section-title-text">
+      <h2>Media &amp; FTP Servers</h2>
+      <p>BDIX Connected · Top 50+ Active Servers</p>
+    </div>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><span class="dot dot-green"></span> FTP/Media</div>
+    <div class="legend-item"><span class="dot dot-orange"></span> IP Address</div>
+    <div class="legend-item"><span class="dot dot-blue"></span> Website</div>
+    <div class="legend-item"><span class="dot dot-fb"></span> Facebook</div>
+    <div style="margin-left:auto;color:var(--muted);font-size:11px;">⚠️ Private IP (10.x / 172.x) শুধু BDIX নেটওয়ার্কে কাজ করে</div>
+  </div>
+
+  <div class="cards-grid" id="grid-ftp">
+
+    <div class="card sec-ftp" data-name="business network ftpbd bnet">
+      <div class="card-name">🖥️ BUSINESS NETWORK (FTPBD)</div>
+      <a class="link-item" href="http://ftpbd.net" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://ftpbd.net</span></a>
+      <a class="link-item" href="http://server1.ftpbd.net/FTP-1" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://server1.ftpbd.net/FTP-1</span></a>
+      <a class="link-item" href="http://server2.ftpbd.net/FTP-2" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://server2.ftpbd.net/FTP-2</span></a>
+      <a class="link-item" href="http://server3.ftpbd.net/FTP-3" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://server3.ftpbd.net/FTP-3</span></a>
+      <a class="link-item" href="http://server4.ftpbd.net/FTP-4" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://server4.ftpbd.net/FTP-4</span></a>
+      <a class="link-item" href="http://server5.ftpbd.net/FTP-5" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://server5.ftpbd.net/FTP-5</span></a>
+      <a class="link-item" href="http://media.ftpbd.net:8096" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://media.ftpbd.net:8096</span></a>
+      <a class="link-item" href="http://103.58.73.6" target="_blank"><span class="dot dot-orange"></span><span class="link-url">http://103.58.73.6 ~ .10</span></a>
+      <a class="link-item" href="http://www.bnet-bd.com" target="_blank"><span class="dot dot-blue"></span><span class="link-url">http://www.bnet-bd.com</span></a>
+      <a class="link-item" href="https://www.facebook.com/ftpbd.net" target="_blank"><span class="dot dot-fb"></span><span class="link-url">facebook.com/ftpbd.net</span></a>
+    </div>
+
+    <div class="card sec-ftp" data-name="circle network circleftp">
+      <div class="card-name">🖥️ CIRCLE NETWORK (CIRCLEFTP)</div>
+      <a class="link-item" href="http://circleftp.net" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://circleftp.net</span></a>
+      <a class="link-item" href="http://new.circleftp.net" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://new.circleftp.net</span></a>
+      <a class="link-item" href="http://ftp4.circleftp.net" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://ftp4.circleftp.net</span></a>
+      <a class="link-item" href="http://emby.circleftp.net:8096" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://emby.circleftp.net:8096</span></a>
+      <a class="link-item" href="http://103.170.204.84" target="_blank"><span class="dot dot-orange"></span><span class="link-url">http://103.170.204.84</span></a>
+      <a class="link-item" href="http://15.1.1.4" target="_blank"><span class="dot dot-orange"></span><span class="link-url">http://15.1.1.4</span></a>
+      <a class="link-item" href="https://circlenetworkbd.net" target="_blank"><span class="dot dot-blue"></span><span class="link-url">circlenetworkbd.net</span></a>
+      <a class="link-item" href="https://www.facebook.com/Circlenetworkbd" target="_blank"><span class="dot dot-fb"></span><span class="link-url">facebook.com/Circlenetworkbd</span></a>
+    </div>
+
+    <div class="card sec-ftp" data-name="sam online samftp sambd">
+      <div class="card-name">🖥️ SAM ONLINE (SAMFTP)</div>
+      <a class="link-item" href="https://samftp.com" target="_blank"><span class="dot dot-green"></span><span class="link-url">https://samftp.com</span></a>
+      <a class="link-item" href="http://movie.sambd.net:8096" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://movie.sambd.net:8096</span></a>
+      <a class="link-item" href="http://172.16.50.4" target="_blank"><span class="dot dot-orange"></span><span class="link-url">http://172.16.50.4</span></a>
+      <a class="link-item" href="http://172.16.50.7" target="_blank"><span class="dot dot-orange"></span><span class="link-url">http://172.16.50.7</span></a>
+      <a class="link-item" href="https://sambd.com" target="_blank"><span class="dot dot-blue"></span><span class="link-url">sambd.com</span></a>
+      <a class="link-item" href="https://www.facebook.com/samonlinedhaka" target="_blank"><span class="dot dot-fb"></span><span class="link-url">facebook.com/samonlinedhaka</span></a>
+    </div>
+
+    <div class="card sec-ftp" data-name="cogent broadband khulnaflix bokasoka">
+      <div class="card-name">🖥️ COGENT BROADBAND (KHULNAFLIX)</div>
+      <a class="link-item" href="http://khulnaflix.net" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://khulnaflix.net</span></a>
+      <a class="link-item" href="http://bokasoka.net/NAS1" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://bokasoka.net/NAS1</span></a>
+      <a class="link-item" href="http://file.khulnaflix.net" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://file.khulnaflix.net</span></a>
+      <a class="link-item" href="http://103.153.175.254/NAS1" target="_blank"><span class="dot dot-orange"></span><span class="link-url">http://103.153.175.254/NAS1</span></a>
+      <a class="link-item" href="https://www.cogentbroadband.net" target="_blank"><span class="dot dot-blue"></span><span class="link-url">cogentbroadband.net</span></a>
+      <a class="link-item" href="https://www.facebook.com/cogentbroadband" target="_blank"><span class="dot dot-fb"></span><span class="link-url">facebook.com/cogentbroadband</span></a>
+    </div>
+
+    <div class="card sec-ftp" data-name="discovery internet discoveryftp">
+      <div class="card-name">🖥️ DISCOVERY INTERNET (DISCOVERYFTP)</div>
+      <a class="link-item" href="http://discoveryftp.net" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://discoveryftp.net</span></a>
+      <a class="link-item" href="http://dflix.discoveryftp.net" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://dflix.discoveryftp.net</span></a>
+      <a class="link-item" href="http://cds1.discoveryftp.net" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://cds1.discoveryftp.net</span></a>
+      <a class="link-item" href="http://cds2.discoveryftp.net" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://cds2.discoveryftp.net</span></a>
+      <a class="link-item" href="http://cds3.discoveryftp.net" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://cds3.discoveryftp.net</span></a>
+      <a class="link-item" href="http://103.120.165.196" target="_blank"><span class="dot dot-orange"></span><span class="link-url">http://103.120.165.196</span></a>
+      <a class="link-item" href="https://www.discoverynetbd.com" target="_blank"><span class="dot dot-blue"></span><span class="link-url">discoverynetbd.com</span></a>
+      <a class="link-item" href="https://www.facebook.com/discoveryinternet" target="_blank"><span class="dot dot-fb"></span><span class="link-url">facebook.com/discoveryinternet</span></a>
+    </div>
+
+    <div class="card sec-ftp" data-name="one net communications showtime onesky">
+      <div class="card-name">🖥️ ONE NET COMMUNICATIONS (SHOWTIME)</div>
+      <a class="link-item" href="http://www.showtimebd.com" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://www.showtimebd.com</span></a>
+      <a class="link-item" href="http://10.100.100.10" target="_blank"><span class="dot dot-orange"></span><span class="link-url">http://10.100.100.10</span></a>
+      <a class="link-item" href="http://103.77.252.113" target="_blank"><span class="dot dot-orange"></span><span class="link-url">http://103.77.252.113</span></a>
+      <a class="link-item" href="http://10.100.100.12" target="_blank"><span class="dot dot-orange"></span><span class="link-url">http://10.100.100.12</span></a>
+      <a class="link-item" href="https://www.1netbd.com" target="_blank"><span class="dot dot-blue"></span><span class="link-url">1netbd.com</span></a>
+      <a class="link-item" href="https://www.facebook.com/OneSky.ISP" target="_blank"><span class="dot dot-fb"></span><span class="link-url">facebook.com/OneSky.ISP</span></a>
+    </div>
+
+    <div class="card sec-ftp" data-name="digital dot net ctgmovies ddnbd crazyctg">
+      <div class="card-name">🖥️ DIGITAL DOT NET (CTGMOVIES)</div>
+      <a class="link-item" href="http://ctgmovies.com" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://ctgmovies.com</span></a>
+      <a class="link-item" href="http://crazyctg.com" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://crazyctg.com</span></a>
+      <a class="link-item" href="http://media.ctgfun.com" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://media.ctgfun.com</span></a>
+      <a class="link-item" href="https://ddnbd.com" target="_blank"><span class="dot dot-blue"></span><span class="link-url">ddnbd.com</span></a>
+      <a class="link-item" href="https://www.facebook.com/Digitaldotnet" target="_blank"><span class="dot dot-fb"></span><span class="link-url">facebook.com/Digitaldotnet</span></a>
+    </div>
+
+    <div class="card sec-ftp" data-name="exord online ebox live">
+      <div class="card-name">🖥️ EXORD ONLINE (E-BOX LIVE)</div>
+      <a class="link-item" href="http://fs.ebox.live" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://fs.ebox.live</span></a>
+      <a class="link-item" href="http://fileserver.ebox.live" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://fileserver.ebox.live</span></a>
+      <a class="link-item" href="http://play.ebox.live" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://play.ebox.live</span></a>
+      <a class="link-item" href="http://103.49.168.107" target="_blank"><span class="dot dot-orange"></span><span class="link-url">http://103.49.168.107</span></a>
+      <a class="link-item" href="http://www.exordonline.com" target="_blank"><span class="dot dot-blue"></span><span class="link-url">exordonline.com</span></a>
+      <a class="link-item" href="https://www.facebook.com/ebox.live" target="_blank"><span class="dot dot-fb"></span><span class="link-url">facebook.com/ebox.live</span></a>
+    </div>
+
+    <div class="card sec-ftp" data-name="icc communication iccfios icctalk">
+      <div class="card-name">🖥️ ICC COMMUNICATION (ICCFIOS)</div>
+      <a class="link-item" href="http://10.16.100.244" target="_blank"><span class="dot dot-orange"></span><span class="link-url">http://10.16.100.244</span></a>
+      <a class="link-item" href="http://10.16.100.202/ftps10" target="_blank"><span class="dot dot-orange"></span><span class="link-url">http://10.16.100.202/ftps10</span></a>
+      <a class="link-item" href="https://icc.com.bd" target="_blank"><span class="dot dot-blue"></span><span class="link-url">icc.com.bd</span></a>
+      <a class="link-item" href="https://iccfios.net" target="_blank"><span class="dot dot-blue"></span><span class="link-url">iccfios.net</span></a>
+      <a class="link-item" href="https://pastebin.com/VpXpmMjQ" target="_blank"><span class="dot dot-blue"></span><span class="link-url">pastebin.com/VpXpmMjQ</span></a>
+      <a class="link-item" href="https://www.facebook.com/iccbroadband" target="_blank"><span class="dot dot-fb"></span><span class="link-url">facebook.com/iccbroadband</span></a>
+    </div>
+
+    <div class="card sec-ftp" data-name="antaranga dhakamovie antbd">
+      <div class="card-name">🖥️ ANTARANGA (DHAKAMOVIE)</div>
+      <a class="link-item" href="http://dhakamovie.com" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://dhakamovie.com</span></a>
+      <a class="link-item" href="http://103.237.37.181" target="_blank"><span class="dot dot-orange"></span><span class="link-url">http://103.237.37.181</span></a>
+      <a class="link-item" href="https://www.antbd.com" target="_blank"><span class="dot dot-blue"></span><span class="link-url">antbd.com</span></a>
+      <a class="link-item" href="https://www.facebook.com/AntarangaDotCom" target="_blank"><span class="dot dot-fb"></span><span class="link-url">facebook.com/AntarangaDotCom</span></a>
+    </div>
+
+    <div class="card sec-ftp" data-name="inspire broadband ihub">
+      <div class="card-name">🖥️ INSPIRE BROADBAND (IHUB)</div>
+      <a class="link-item" href="http://ihub.live" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://ihub.live</span></a>
+      <a class="link-item" href="http://sg-cdn.ihub.live:8787/download/games" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://sg-cdn.ihub.live:8787/download/games</span></a>
+      <a class="link-item" href="https://inspirebroadband.net" target="_blank"><span class="dot dot-blue"></span><span class="link-url">inspirebroadband.net</span></a>
+      <a class="link-item" href="https://www.facebook.com/inspirebroadband" target="_blank"><span class="dot dot-fb"></span><span class="link-url">facebook.com/inspirebroadband</span></a>
+    </div>
+
+    <div class="card sec-ftp" data-name="ks network wowmoviezone">
+      <div class="card-name">🖥️ KS NETWORK (WOW MOVIE ZONE)</div>
+      <a class="link-item" href="http://172.27.27.83" target="_blank"><span class="dot dot-orange"></span><span class="link-url">http://172.27.27.83</span></a>
+      <a class="link-item" href="http://172.27.27.84" target="_blank"><span class="dot dot-orange"></span><span class="link-url">http://172.27.27.84</span></a>
+      <a class="link-item" href="http://172.27.27.244/2TB1" target="_blank"><span class="dot dot-orange"></span><span class="link-url">http://172.27.27.244/2TB1</span></a>
+      <a class="link-item" href="http://172.27.27.245/2TB1" target="_blank"><span class="dot dot-orange"></span><span class="link-url">http://172.27.27.245/2TB1</span></a>
+      <a class="link-item" href="http://172.27.27.250/2TB1" target="_blank"><span class="dot dot-orange"></span><span class="link-url">http://172.27.27.250/2TB1</span></a>
+      <a class="link-item" href="http://172.27.27.251/2TB2" target="_blank"><span class="dot dot-orange"></span><span class="link-url">http://172.27.27.251/2TB2</span></a>
+      <a class="link-item" href="https://ksnetworkbd.com" target="_blank"><span class="dot dot-blue"></span><span class="link-url">ksnetworkbd.com</span></a>
+    </div>
+
+    <div class="card sec-ftp" data-name="mazeda network mazedanetworks">
+      <div class="card-name">🖥️ MAZEDA NETWORK</div>
+      <a class="link-item" href="http://ftpweb.mazedanetworks.net" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://ftpweb.mazedanetworks.net</span></a>
+      <a class="link-item" href="http://172.22.22.100" target="_blank"><span class="dot dot-orange"></span><span class="link-url">http://172.22.22.100</span></a>
+      <a class="link-item" href="http://172.22.22.101" target="_blank"><span class="dot dot-orange"></span><span class="link-url">http://172.22.22.101</span></a>
+      <a class="link-item" href="http://172.22.22.105:8096" target="_blank"><span class="dot dot-orange"></span><span class="link-url">http://172.22.22.105:8096</span></a>
+      <a class="link-item" href="https://www.mazedanetworks.net" target="_blank"><span class="dot dot-blue"></span><span class="link-url">mazedanetworks.net</span></a>
+    </div>
+
+    <div class="card sec-ftp" data-name="vision technologies sunplex">
+      <div class="card-name">🖥️ VISION TECHNOLOGIES (SUNPLEX)</div>
+      <a class="link-item" href="https://sunplex.net" target="_blank"><span class="dot dot-green"></span><span class="link-url">https://sunplex.net</span></a>
+      <a class="link-item" href="https://storage.sunplex.net" target="_blank"><span class="dot dot-green"></span><span class="link-url">https://storage.sunplex.net</span></a>
+      <a class="link-item" href="https://visiontechnologiesltd.com" target="_blank"><span class="dot dot-blue"></span><span class="link-url">visiontechnologiesltd.com</span></a>
+    </div>
+
+    <div class="card sec-ftp" data-name="race online moviedom moviehaat">
+      <div class="card-name">🖥️ RACE ONLINE (MOVIEDOM · MOVIEHAAT)</div>
+      <a class="link-item" href="http://moviedom.live" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://moviedom.live</span></a>
+      <a class="link-item" href="http://movie.moviedom.live/Data" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://movie.moviedom.live/Data</span></a>
+      <a class="link-item" href="http://moviehaat.net" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://moviehaat.net</span></a>
+      <a class="link-item" href="http://cdn2.moviehaat.net:8080/Upload" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://cdn2.moviehaat.net:8080/Upload</span></a>
+      <a class="link-item" href="http://59.152.101.198" target="_blank"><span class="dot dot-orange"></span><span class="link-url">http://59.152.101.198</span></a>
+      <a class="link-item" href="https://www.race.net.bd" target="_blank"><span class="dot dot-blue"></span><span class="link-url">race.net.bd</span></a>
+    </div>
+
+    <div class="card sec-ftp" data-name="amarnet dhakaftp">
+      <div class="card-name">🖥️ AMARNET SYSTEM (DHAKAFTP)</div>
+      <a class="link-item" href="http://dhakaftp.com" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://dhakaftp.com</span></a>
+      <a class="link-item" href="http://dhakaftp.com/Data" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://dhakaftp.com/Data</span></a>
+      <a class="link-item" href="http://103.205.233.70/Data" target="_blank"><span class="dot dot-orange"></span><span class="link-url">http://103.205.233.70/Data</span></a>
+      <a class="link-item" href="http://amarnetsystem.com" target="_blank"><span class="dot dot-blue"></span><span class="link-url">amarnetsystem.com</span></a>
+    </div>
+
+    <div class="card sec-ftp" data-name="bossbd cdn">
+      <div class="card-name">🖥️ BOSSBD</div>
+      <a class="link-item" href="http://bossbd.live" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://bossbd.live</span></a>
+      <a class="link-item" href="http://cdn.bossbd.net" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://cdn.bossbd.net</span></a>
+      <a class="link-item" href="http://cdn1.bossbd.net" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://cdn1.bossbd.net</span></a>
+      <a class="link-item" href="http://cdn2.bossbd.net" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://cdn2.bossbd.net</span></a>
+      <a class="link-item" href="http://www.bossbd.net" target="_blank"><span class="dot dot-blue"></span><span class="link-url">bossbd.net</span></a>
+    </div>
+
+    <div class="card sec-ftp" data-name="rangdhanu live">
+      <div class="card-name">🖥️ RANGDHANU LIVE</div>
+      <a class="link-item" href="http://fs.rangdhanu.live" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://fs.rangdhanu.live</span></a>
+      <a class="link-item" href="http://emby.rangdhanu.live" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://emby.rangdhanu.live</span></a>
+      <a class="link-item" href="https://www.rangdhanu.live" target="_blank"><span class="dot dot-blue"></span><span class="link-url">rangdhanu.live</span></a>
+    </div>
+
+    <div class="card sec-ftp" data-name="city online ibdplex moviebazar">
+      <div class="card-name">🖥️ CITY ONLINE (IBDPLEX)</div>
+      <a class="link-item" href="http://moviebazar.net" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://moviebazar.net</span></a>
+      <a class="link-item" href="https://ibdplex.net" target="_blank"><span class="dot dot-green"></span><span class="link-url">https://ibdplex.net</span></a>
+      <a class="link-item" href="https://www.cityonlinebd.net" target="_blank"><span class="dot dot-blue"></span><span class="link-url">cityonlinebd.net</span></a>
+    </div>
+
+    <div class="card sec-ftp" data-name="radisson technologies flixhub">
+      <div class="card-name">🖥️ RADISSON TECHNOLOGIES (FLIXHUB)</div>
+      <a class="link-item" href="http://flixhub.net" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://flixhub.net</span></a>
+      <a class="link-item" href="http://flixhub.net/Data" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://flixhub.net/Data</span></a>
+      <a class="link-item" href="http://45.123.41.54/Data" target="_blank"><span class="dot dot-orange"></span><span class="link-url">http://45.123.41.54/Data</span></a>
+      <a class="link-item" href="https://www.radisson-bd.net" target="_blank"><span class="dot dot-blue"></span><span class="link-url">radisson-bd.net</span></a>
+    </div>
+
+    <div class="card sec-ftp" data-name="pollyflix amrbd">
+      <div class="card-name">🖥️ POLLYFLIX &amp; AMRBD</div>
+      <a class="link-item" href="http://pollyflix.com" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://pollyflix.com</span></a>
+      <a class="link-item" href="http://fs.amrbd.com" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://fs.amrbd.com</span></a>
+      <a class="link-item" href="http://fs2.amrbd.com" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://fs2.amrbd.com</span></a>
+      <a class="link-item" href="http://12.1.1.2" target="_blank"><span class="dot dot-orange"></span><span class="link-url">http://12.1.1.2</span></a>
+      <a class="link-item" href="http://12.1.1.3/flix" target="_blank"><span class="dot dot-orange"></span><span class="link-url">http://12.1.1.3/flix</span></a>
+    </div>
+
+    <div class="card sec-ftp" data-name="aknetworks aktube">
+      <div class="card-name">🖥️ AKNETWORKS (AKTUBE)</div>
+      <a class="link-item" href="http://aktube.live" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://aktube.live</span></a>
+      <a class="link-item" href="http://aknetworksbd.com" target="_blank"><span class="dot dot-blue"></span><span class="link-url">aknetworksbd.com</span></a>
+    </div>
+
+    <div class="card sec-ftp" data-name="bonsaihd">
+      <div class="card-name">🖥️ BONSAIHD</div>
+      <a class="link-item" href="https://bonsaihd.live" target="_blank"><span class="dot dot-green"></span><span class="link-url">https://bonsaihd.live</span></a>
+    </div>
+
+    <div class="card sec-ftp" data-name="millennium computers mcnbd">
+      <div class="card-name">🖥️ MILLENNIUM COMPUTERS (MCNBD)</div>
+      <a class="link-item" href="http://ftp.mcnbd.com" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://ftp.mcnbd.com</span></a>
+      <a class="link-item" href="http://fun.mcnbd.com" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://fun.mcnbd.com</span></a>
+      <a class="link-item" href="https://www.mcnbd.com" target="_blank"><span class="dot dot-blue"></span><span class="link-url">mcnbd.com</span></a>
+      <a class="link-item" href="https://www.facebook.com/millenniumbd.mcn" target="_blank"><span class="dot dot-fb"></span><span class="link-url">facebook.com/millenniumbd.mcn</span></a>
+    </div>
+
+    <div class="card sec-ftp" data-name="amberit binodonmela">
+      <div class="card-name">🖥️ AMBERIT (BINODONMELA)</div>
+      <a class="link-item" href="http://www.binodonmela.net" target="_blank"><span class="dot dot-green"></span><span class="link-url">binodonmela.net</span></a>
+      <a class="link-item" href="http://content2.binodonmela.net" target="_blank"><span class="dot dot-green"></span><span class="link-url">content2.binodonmela.net</span></a>
+      <a class="link-item" href="http://202.4.96.121" target="_blank"><span class="dot dot-orange"></span><span class="link-url">http://202.4.96.121</span></a>
+      <a class="link-item" href="http://118.179.223.51" target="_blank"><span class="dot dot-orange"></span><span class="link-url">http://118.179.223.51</span></a>
+    </div>
+
+    <div class="card sec-ftp" data-name="akkadukka niloynet">
+      <div class="card-name">🖥️ AKKADUKKA (NILOYNET)</div>
+      <a class="link-item" href="http://akkadukka.com" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://akkadukka.com</span></a>
+      <a class="link-item" href="http://akkadukka.com:8096" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://akkadukka.com:8096</span></a>
+    </div>
+
+    <div class="card sec-ftp" data-name="dnetbd dnetdrive">
+      <div class="card-name">🖥️ DNETBD</div>
+      <a class="link-item" href="http://103.76.196.90" target="_blank"><span class="dot dot-orange"></span><span class="link-url">http://103.76.196.90</span></a>
+      <a class="link-item" href="https://dnetbd.com" target="_blank"><span class="dot dot-blue"></span><span class="link-url">dnetbd.com</span></a>
+      <a class="link-item" href="https://dnetdrive.com" target="_blank"><span class="dot dot-blue"></span><span class="link-url">dnetdrive.com</span></a>
+    </div>
+
+    <div class="card sec-ftp" data-name="dot internet dflix">
+      <div class="card-name">🖥️ DOT INTERNET (DFLIX)</div>
+      <a class="link-item" href="http://dflix.live" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://dflix.live</span></a>
+      <a class="link-item" href="http://fs1.dflix.live" target="_blank"><span class="dot dot-green"></span><span class="link-url">http://fs1.dflix.live</span></a>
+      <a class="link-item" href="http://www.dotinternetbd.com" target="_blank"><span class="dot dot-blue"></span><span class="link-url">dotinternetbd.com</span></a>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 2: LIVE TV SERVERS
+════════════════════════════════════════════ -->
+<div class="section" id="sec-tv">
+  <div class="section-header">
+    <span class="section-icon">📺</span>
+    <div class="section-title-text">
+      <h2>Live TV Servers</h2>
+      <p>BDIX Connected · IPTV &amp; Streaming</p>
+    </div>
+  </div>
+  <div class="cards-grid" id="grid-tv">
+
+    <div class="card sec-tv" data-name="ctgtv bdixtv"><div class="card-name">📺 CTGTV / BDIXTV</div><a class="link-item" href="http://www.ctgtv.live" target="_blank"><span class="dot dot-purple"></span><span class="link-url">http://www.ctgtv.live</span></a><a class="link-item" href="http://ddn.oncast.me" target="_blank"><span class="dot dot-purple"></span><span class="link-url">http://ddn.oncast.me</span></a><a class="link-item" href="http://172.20.1.1" target="_blank"><span class="dot dot-orange"></span><span class="link-url">http://172.20.1.1</span></a><a class="link-item" href="http://bdixtv.live" target="_blank"><span class="dot dot-purple"></span><span class="link-url">http://bdixtv.live</span></a></div>
+
+    <div class="card sec-tv" data-name="amrbd tv"><div class="card-name">📺 AMRBD LIVE TV</div><a class="link-item" href="http://103.136.200.246" target="_blank"><span class="dot dot-orange"></span><span class="link-url">http://103.136.200.246</span></a><a class="link-item" href="http://amrbd.com" target="_blank"><span class="dot dot-purple"></span><span class="link-url">http://amrbd.com</span></a></div>
+
+    <div class="card sec-tv" data-name="ebox live tv"><div class="card-name">📺 EBOX LIVE TV</div><a class="link-item" href="http://tv.ebox.live" target="_blank"><span class="dot dot-purple"></span><span class="link-url">http://tv.ebox.live</span></a><a class="link-item" href="http://tv2.ebox.live" target="_blank"><span class="dot dot-purple"></span><span class="link-url">http://tv2.ebox.live</span></a></div>
+
+    <div class="card sec-tv" data-name="smartbox digital"><div class="card-name">📺 SMARTBOX DIGITAL</div><a class="link-item" href="http://smartbox.digital" target="_blank"><span class="dot dot-purple"></span><span class="link-url">http://smartbox.digital</span></a></div>
+
+    <div class="card sec-tv" data-name="c1live cloudone"><div class="card-name">📺 C1LIVE</div><a class="link-item" href="http://c1live.com" target="_blank"><span class="dot dot-purple"></span><span class="link-url">http://c1live.com</span></a></div>
+
+    <div class="card sec-tv" data-name="otv ftpbd"><div class="card-name">📺 OTV (FTPBD)</div><a class="link-item" href="http://otv.ftpbd.net" target="_blank"><span class="dot dot-purple"></span><span class="link-url">http://otv.ftpbd.net</span></a></div>
+
+    <div class="card sec-tv" data-name="kogent khulnaflix iptv"><div class="card-name">📺 COGENT/KHULNAFLIX TV</div><a class="link-item" href="http://bokasoka.net:8080" target="_blank"><span class="dot dot-purple"></span><span class="link-url">http://bokasoka.net:8080</span></a><a class="link-item" href="http://172.27.27.27:8080" target="_blank"><span class="dot dot-orange"></span><span class="link-url">http://172.27.27.27:8080</span></a><a class="link-item" href="http://tv.khulnaflix.net" target="_blank"><span class="dot dot-purple"></span><span class="link-url">http://tv.khulnaflix.net</span></a></div>
+
+    <div class="card sec-tv" data-name="bdiptv stream"><div class="card-name">📺 BDIPTV STREAM</div><a class="link-item" href="http://bdiptv.stream" target="_blank"><span class="dot dot-purple"></span><span class="link-url">http://bdiptv.stream</span></a></div>
+
+    <div class="card sec-tv" data-name="plusbox tv"><div class="card-name">📺 PLUSBOX TV</div><a class="link-item" href="http://plusbox.tv" target="_blank"><span class="dot dot-purple"></span><span class="link-url">http://plusbox.tv</span></a></div>
+
+    <div class="card sec-tv" data-name="circle bdiptv bciptv"><div class="card-name">📺 CIRCLE NETWORK TV</div><a class="link-item" href="http://15.1.1.10" target="_blank"><span class="dot dot-orange"></span><span class="link-url">http://15.1.1.10</span></a><a class="link-item" href="http://bdiptv.net" target="_blank"><span class="dot dot-purple"></span><span class="link-url">http://bdiptv.net</span></a><a class="link-item" href="http://bciptv.net" target="_blank"><span class="dot dot-purple"></span><span class="link-url">http://bciptv.net</span></a></div>
+
+    <div class="card sec-tv" data-name="dugdugi live"><div class="card-name">📺 DUGDUGI LIVE</div><a class="link-item" href="http://dugdugilive.com" target="_blank"><span class="dot dot-purple"></span><span class="link-url">http://dugdugilive.com</span></a></div>
+
+    <div class="card sec-tv" data-name="rangdhanu live tv hdtv"><div class="card-name">📺 RANGDHANU LIVE TV</div><a class="link-item" href="http://tv.rangdhanu.live" target="_blank"><span class="dot dot-purple"></span><span class="link-url">http://tv.rangdhanu.live</span></a><a class="link-item" href="http://plus.tv.rangdhanu.live" target="_blank"><span class="dot dot-purple"></span><span class="link-url">http://plus.tv.rangdhanu.live</span></a><a class="link-item" href="https://hdtv.rangdhanu.live" target="_blank"><span class="dot dot-purple"></span><span class="link-url">https://hdtv.rangdhanu.live</span></a></div>
+
+    <div class="card sec-tv" data-name="roarzone tv"><div class="card-name">📺 ROARZONE TV</div><a class="link-item" href="http://tv.roarzone.info" target="_blank"><span class="dot dot-purple"></span><span class="link-url">http://tv.roarzone.info</span></a></div>
+
+    <div class="card sec-tv" data-name="iboxbd tv"><div class="card-name">📺 IBOX BD TV</div><a class="link-item" href="http://tv.iboxbd.online" target="_blank"><span class="dot dot-purple"></span><span class="link-url">http://tv.iboxbd.online</span></a></div>
+
+    <div class="card sec-tv" data-name="nagordola tv"><div class="card-name">📺 NAGORDOLA TV</div><a class="link-item" href="http://tv.nagordola.live" target="_blank"><span class="dot dot-purple"></span><span class="link-url">http://tv.nagordola.live</span></a></div>
+
+    <div class="card sec-tv" data-name="dflix live tv dot internet"><div class="card-name">📺 DFLIX LIVE TV</div><a class="link-item" href="http://59.153.100.77" target="_blank"><span class="dot dot-orange"></span><span class="link-url">http://59.153.100.77</span></a><a class="link-item" href="http://tv.dflix.live" target="_blank"><span class="dot dot-purple"></span><span class="link-url">http://tv.dflix.live</span></a></div>
+
+    <div class="card sec-tv" data-name="linktech tv"><div class="card-name">📺 LINKTECH TV</div><a class="link-item" href="http://tv.linktech.net.bd" target="_blank"><span class="dot dot-purple"></span><span class="link-url">http://tv.linktech.net.bd</span></a></div>
+
+    <div class="card sec-tv" data-name="tetrasoft tv"><div class="card-name">📺 TETRASOFT TV</div><a class="link-item" href="http://tv.tetrasoftbd.com" target="_blank"><span class="dot dot-purple"></span><span class="link-url">http://tv.tetrasoftbd.com</span></a></div>
+
+    <div class="card sec-tv" data-name="icc tv"><div class="card-name">📺 ICC LIVE TV</div><a class="link-item" href="http://10.16.100.244/livetv.php" target="_blank"><span class="dot dot-orange"></span><span class="link-url">http://10.16.100.244/livetv.php</span></a></div>
+
+    <div class="card sec-tv" data-name="ctgoz live"><div class="card-name">📺 CTGOZ LIVE</div><a class="link-item" href="http://live.ctgoz.com" target="_blank"><span class="dot dot-purple"></span><span class="link-url">http://live.ctgoz.com</span></a></div>
+
+    <div class="card sec-tv" data-name="projapoti live"><div class="card-name">📺 PROJAPOTI LIVE</div><a class="link-item" href="http://projapoti.live" target="_blank"><span class="dot dot-purple"></span><span class="link-url">http://projapoti.live</span></a></div>
+
+    <div class="card sec-tv" data-name="satrong tv"><div class="card-name">📺 SATRONG TV</div><a class="link-item" href="http://103.214.156.2" target="_blank"><span class="dot dot-orange"></span><span class="link-url">http://103.214.156.2</span></a><a class="link-item" href="http://tv.satrong.live" target="_blank"><span class="dot dot-purple"></span><span class="link-url">http://tv.satrong.live</span></a></div>
+
+    <div class="card sec-tv" data-name="aliflailabd tv"><div class="card-name">📺 ALIF LAILA TV</div><a class="link-item" href="http://tv.aliflailabd.com" target="_blank"><span class="dot dot-purple"></span><span class="link-url">http://tv.aliflailabd.com</span></a></div>
+
+    <div class="card sec-tv" data-name="sam online tv"><div class="card-name">📺 SAM ONLINE TV</div><a class="link-item" href="http://172.16.50.22" target="_blank"><span class="dot dot-orange"></span><span class="link-url">http://172.16.50.22</span></a><a class="link-item" href="http://172.16.50.2" target="_blank"><span class="dot dot-orange"></span><span class="link-url">http://172.16.50.2</span></a></div>
+
+    <div class="card sec-tv" data-name="nbox tv live"><div class="card-name">📺 NBOX LIVE TV</div><a class="link-item" href="https://tv.nbox.live" target="_blank"><span class="dot dot-purple"></span><span class="link-url">https://tv.nbox.live</span></a></div>
+
+    <div class="card sec-tv" data-name="city online moviebazar live tv"><div class="card-name">📺 CITY ONLINE LIVE TV</div><a class="link-item" href="http://113.212.111.246" target="_blank"><span class="dot dot-orange"></span><span class="link-url">http://113.212.111.246</span></a><a class="link-item" href="http://live.moviebazar.net" target="_blank"><span class="dot dot-purple"></span><span class="link-url">http://live.moviebazar.net</span></a></div>
+
+    <div class="card sec-tv" data-name="anos tv anosbd"><div class="card-name">📺 ANOS TV</div><a class="link-item" href="http://103.113.224.68" target="_blank"><span class="dot dot-orange"></span><span class="link-url">http://103.113.224.68</span></a><a class="link-item" href="http://tv.anosbd.com" target="_blank"><span class="dot dot-purple"></span><span class="link-url">http://tv.anosbd.com</span></a></div>
+
+    <div class="card sec-tv" data-name="flashnet tv"><div class="card-name">📺 FLASHNET TV</div><a class="link-item" href="http://tv.flashnetbd.net" target="_blank"><span class="dot dot-purple"></span><span class="link-url">http://tv.flashnetbd.net</span></a></div>
+
+    <div class="card sec-tv" data-name="itcn iptv"><div class="card-name">📺 ITCN IPTV</div><a class="link-item" href="http://iptv.itcnbd.com" target="_blank"><span class="dot dot-purple"></span><span class="link-url">http://iptv.itcnbd.com</span></a></div>
+
+    <div class="card sec-tv" data-name="medialink tv"><div class="card-name">📺 MEDIALINK TV</div><a class="link-item" href="http://tv.medialink24.net" target="_blank"><span class="dot dot-purple"></span><span class="link-url">http://tv.medialink24.net</span></a></div>
+
+    <div class="card sec-tv" data-name="mcnbd iptv"><div class="card-name">📺 MCNBD IPTV</div><a class="link-item" href="http://iptv.mcnbd.com" target="_blank"><span class="dot dot-purple"></span><span class="link-url">http://iptv.mcnbd.com</span></a></div>
+
+    <div class="card sec-tv" data-name="ks network iptv"><div class="card-name">📺 KS NETWORK IPTV</div><a class="link-item" href="http://172.27.27.85" target="_blank"><span class="dot dot-orange"></span><span class="link-url">http://172.27.27.85</span></a><a class="link-item" href="https://iptv.ksnetworkbd.com" target="_blank"><span class="dot dot-purple"></span><span class="link-url">https://iptv.ksnetworkbd.com</span></a></div>
+
+    <div class="card sec-tv" data-name="future net fn-bd tv"><div class="card-name">📺 FUTURE.NET TV</div><a class="link-item" href="http://tv.fn-bd.com" target="_blank"><span class="dot dot-purple"></span><span class="link-url">http://tv.fn-bd.com</span></a></div>
+
+    <div class="card sec-tv" data-name="aklivetv"><div class="card-name">📺 AK LIVE TV</div><a class="link-item" href="http://aklivetv.com" target="_blank"><span class="dot dot-purple"></span><span class="link-url">http://aklivetv.com</span></a></div>
+
+    <div class="card sec-tv" data-name="bdlan live"><div class="card-name">📺 BDLAN LIVE</div><a class="link-item" href="http://live.bdlan.net" target="_blank"><span class="dot dot-purple"></span><span class="link-url">http://live.bdlan.net</span></a></div>
+
+    <div class="card sec-tv" data-name="sparklink tv"><div class="card-name">📺 SPARKLINK TV</div><a class="link-item" href="http://tv.sparklinkbd.com" target="_blank"><span class="dot dot-purple"></span><span class="link-url">http://tv.sparklinkbd.com</span></a></div>
+
+    <div class="card sec-tv" data-name="bdtv live khulnatv"><div class="card-name">📺 BDTV / KHULNATV</div><a class="link-item" href="http://bdtv.live" target="_blank"><span class="dot dot-purple"></span><span class="link-url">http://bdtv.live</span></a><a class="link-item" href="http://103.150.6.2" target="_blank"><span class="dot dot-orange"></span><span class="link-url">http://103.150.6.2</span></a><a class="link-item" href="http://khulnatv.live" target="_blank"><span class="dot dot-purple"></span><span class="link-url">http://khulnatv.live</span></a><a class="link-item" href="http://khulna.bid" target="_blank"><span class="dot dot-purple"></span><span class="link-url">http://khulna.bid</span></a></div>
+
+    <div class="card sec-tv" data-name="livebdix tv"><div class="card-name">📺 LIVEBDIX</div><a class="link-item" href="https://livebdix.com" target="_blank"><span class="dot dot-purple"></span><span class="link-url">https://livebdix.com</span></a><a class="link-item" href="https://tv.livebdix.com" target="_blank"><span class="dot dot-purple"></span><span class="link-url">https://tv.livebdix.com</span></a></div>
+
+    <div class="card sec-tv" data-name="race iptv"><div class="card-name">📺 RACE ONLINE IPTV</div><a class="link-item" href="https://iptv.race.net.bd" target="_blank"><span class="dot dot-purple"></span><span class="link-url">https://iptv.race.net.bd</span></a></div>
+
+    <div class="card sec-tv" data-name="jadoo digital iptv"><div class="card-name">📺 JADOO DIGITAL IPTV</div><a class="link-item" href="https://iptv.jadoodigital.com" target="_blank"><span class="dot dot-purple"></span><span class="link-url">https://iptv.jadoodigital.com</span></a></div>
+
+    <div class="card sec-tv" data-name="khulnaplex tv"><div class="card-name">📺 KHULNAPLEX TV</div><a class="link-item" href="http://khulnaplex.net/tv" target="_blank"><span class="dot dot-purple"></span><span class="link-url">http://khulnaplex.net/tv</span></a></div>
+
+    <div class="card sec-tv" data-name="ayan media tv"><div class="card-name">📺 AYAN MEDIA TV</div><a class="link-item" href="http://tv.ayanmedia.net" target="_blank"><span class="dot dot-purple"></span><span class="link-url">http://tv.ayanmedia.net</span></a></div>
+
+    <div class="card sec-tv" data-name="amaze tv"><div class="card-name">📺 AMAZE TV</div><a class="link-item" href="http://www.amaze-tv.com" target="_blank"><span class="dot dot-purple"></span><span class="link-url">http://www.amaze-tv.com</span></a></div>
+
+    <div class="card sec-tv" data-name="bioscopelive jagobd bongobd bdixsports">
+      <div class="card-name">📺 ONLINE STREAMING (BIOSCOPE / JAGOBD)</div>
+      <a class="link-item" href="https://www.bioscopelive.com" target="_blank"><span class="dot dot-purple"></span><span class="link-url">bioscopelive.com</span></a>
+      <a class="link-item" href="http://www.jagobd.com" target="_blank"><span class="dot dot-purple"></span><span class="link-url">jagobd.com</span></a>
+      <a class="link-item" href="https://bongobd.com" target="_blank"><span class="dot dot-purple"></span><span class="link-url">bongobd.com</span></a>
+      <a class="link-item" href="http://tv.bdixsports.com" target="_blank"><span class="dot dot-purple"></span><span class="link-url">tv.bdixsports.com</span></a>
+      <a class="link-item" href="http://livetv.com.bd" target="_blank"><span class="dot dot-purple"></span><span class="link-url">livetv.com.bd</span></a>
+      <a class="link-item" href="http://durbinlive.com" target="_blank"><span class="dot dot-purple"></span><span class="link-url">durbinlive.com</span></a>
+      <a class="link-item" href="https://hotflix.stream" target="_blank"><span class="dot dot-purple"></span><span class="link-url">hotflix.stream</span></a>
+      <a class="link-item" href="http://globalbanglatv.com" target="_blank"><span class="dot dot-purple"></span><span class="link-url">globalbanglatv.com</span></a>
+      <a class="link-item" href="https://www.webtvbd.com" target="_blank"><span class="dot dot-purple"></span><span class="link-url">webtvbd.com</span></a>
+      <a class="link-item" href="https://crichd.tv" target="_blank"><span class="dot dot-purple"></span><span class="link-url">crichd.tv</span></a>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 3: TORRENT & IPTV
+════════════════════════════════════════════ -->
+<div class="section" id="sec-torrent">
+  <div class="section-header">
+    <span class="section-icon">🧲</span>
+    <div class="section-title-text">
+      <h2>Torrent &amp; IPTV Servers Link</h2>
+      <p>Torrent Sites · Software · Game Resources</p>
+    </div>
+  </div>
+  <div class="cards-grid" id="grid-torrent">
+
+    <div class="card sec-torrent" data-name="chd4 torrent bd"><div class="card-name">🧲 TORRENTBD / CHD4</div><a class="link-item" href="https://www.chd4.com" target="_blank"><span class="dot dot-yellow"></span><span class="link-url">https://www.chd4.com</span></a><a class="link-item" href="https://www.torrentbd.com" target="_blank"><span class="dot dot-yellow"></span><span class="link-url">https://www.torrentbd.com</span></a></div>
+
+    <div class="card sec-torrent" data-name="thepiratebay piratebay10 knaben"><div class="card-name">🧲 THE PIRATE BAY</div><a class="link-item" href="https://thepiratebay.org" target="_blank"><span class="dot dot-yellow"></span><span class="link-url">https://thepiratebay.org</span></a><a class="link-item" href="https://thepiratebay10.org" target="_blank"><span class="dot dot-yellow"></span><span class="link-url">https://thepiratebay10.org</span></a><a class="link-item" href="https://knaben.ru" target="_blank"><span class="dot dot-yellow"></span><span class="link-url">https://knaben.ru</span></a><a class="link-item" href="http://rarbg.to" target="_blank"><span class="dot dot-yellow"></span><span class="link-url">http://rarbg.to</span></a></div>
+
+    <div class="card sec-torrent" data-name="1337x torrent"><div class="card-name">🧲 1337X</div><a class="link-item" href="https://1337x.to" target="_blank"><span class="dot dot-yellow"></span><span class="link-url">https://1337x.to</span></a></div>
+
+    <div class="card sec-torrent" data-name="yts movies ytsmovies"><div class="card-name">🧲 YTS MOVIES</div><a class="link-item" href="https://yts.mx" target="_blank"><span class="dot dot-yellow"></span><span class="link-url">https://yts.mx</span></a><a class="link-item" href="https://ytsmovies.ws" target="_blank"><span class="dot dot-yellow"></span><span class="link-url">https://ytsmovies.ws</span></a></div>
+
+    <div class="card sec-torrent" data-name="eztv torrent"><div class="card-name">🧲 EZTV</div><a class="link-item" href="https://eztv.re" target="_blank"><span class="dot dot-yellow"></span><span class="link-url">https://eztv.re</span></a><a class="link-item" href="https://eztvstatus.com" target="_blank"><span class="dot dot-yellow"></span><span class="link-url">https://eztvstatus.com</span></a><a class="link-item" href="https://eztvtorrent.co" target="_blank"><span class="dot dot-yellow"></span><span class="link-url">https://eztvtorrent.co</span></a></div>
+
+    <div class="card sec-torrent" data-name="torrentgalaxy torrentz2 torrentdownloads"><div class="card-name">🧲 TORRENT SITES</div><a class="link-item" href="https://torrentgalaxy.to" target="_blank"><span class="dot dot-yellow"></span><span class="link-url">https://torrentgalaxy.to</span></a><a class="link-item" href="https://torrentz2eu.org" target="_blank"><span class="dot dot-yellow"></span><span class="link-url">https://torrentz2eu.org</span></a><a class="link-item" href="https://www.torrentdownloads.me" target="_blank"><span class="dot dot-yellow"></span><span class="link-url">https://www.torrentdownloads.me</span></a><a class="link-item" href="https://www.torlock.com" target="_blank"><span class="dot dot-yellow"></span><span class="link-url">https://www.torlock.com</span></a><a class="link-item" href="https://www.limetorrents.info" target="_blank"><span class="dot dot-yellow"></span><span class="link-url">https://www.limetorrents.info</span></a><a class="link-item" href="https://zooqle.com" target="_blank"><span class="dot dot-yellow"></span><span class="link-url">https://zooqle.com</span></a><a class="link-item" href="https://nyaa.si" target="_blank"><span class="dot dot-yellow"></span><span class="link-url">https://nyaa.si</span></a><a class="link-item" href="https://idope.pw" target="_blank"><span class="dot dot-yellow"></span><span class="link-url">https://idope.pw</span></a><a class="link-item" href="https://yourbittorrent.com" target="_blank"><span class="dot dot-yellow"></span><span class="link-url">https://yourbittorrent.com</span></a><a class="link-item" href="https://extratorrent.si" target="_blank"><span class="dot dot-yellow"></span><span class="link-url">https://extratorrent.si</span></a><a class="link-item" href="https://thekickasstorrents.to" target="_blank"><span class="dot dot-yellow"></span><span class="link-url">https://thekickasstorrents.to</span></a><a class="link-item" href="https://glodls.to" target="_blank"><span class="dot dot-yellow"></span><span class="link-url">https://glodls.to</span></a><a class="link-item" href="https://www.torrentfunk.com" target="_blank"><span class="dot dot-yellow"></span><span class="link-url">https://www.torrentfunk.com</span></a><a class="link-item" href="https://www.magnetdl.com" target="_blank"><span class="dot dot-yellow"></span><span class="link-url">https://www.magnetdl.com</span></a><a class="link-item" href="http://pirateiro.com" target="_blank"><span class="dot dot-yellow"></span><span class="link-url">http://pirateiro.com</span></a></div>
+
+    <div class="card sec-torrent" data-name="getintopc software crack"><div class="card-name">💻 SOFTWARE SITES</div><a class="link-item" href="https://getintopc.com" target="_blank"><span class="dot dot-yellow"></span><span class="link-url">https://getintopc.com</span></a><a class="link-item" href="https://igetintopc.com" target="_blank"><span class="dot dot-yellow"></span><span class="link-url">https://igetintopc.com</span></a><a class="link-item" href="https://crackingpatching.com" target="_blank"><span class="dot dot-yellow"></span><span class="link-url">https://crackingpatching.com</span></a><a class="link-item" href="https://www.crackingcity.com" target="_blank"><span class="dot dot-yellow"></span><span class="link-url">https://www.crackingcity.com</span></a><a class="link-item" href="https://up4pc.com" target="_blank"><span class="dot dot-yellow"></span><span class="link-url">https://up4pc.com</span></a><a class="link-item" href="https://www.ask4pc.net" target="_blank"><span class="dot dot-yellow"></span><span class="link-url">https://www.ask4pc.net</span></a><a class="link-item" href="https://techsensebd.com" target="_blank"><span class="dot dot-yellow"></span><span class="link-url">https://techsensebd.com</span></a></div>
+
+    <div class="card sec-torrent" data-name="games oceanofgames repack gametracker"><div class="card-name">🎮 GAME SITES</div><a class="link-item" href="http://oceanofgames.com" target="_blank"><span class="dot dot-yellow"></span><span class="link-url">http://oceanofgames.com</span></a><a class="link-item" href="https://repack-games.com" target="_blank"><span class="dot dot-yellow"></span><span class="link-url">https://repack-games.com</span></a><a class="link-item" href="https://www.gametracker.com" target="_blank"><span class="dot dot-yellow"></span><span class="link-url">https://www.gametracker.com</span></a></div>
+
+    <div class="card sec-torrent" data-name="google drive mega iptv list"><div class="card-name">📂 IPTV / FILE LINKS</div><a class="link-item" href="https://drive.google.com/drive/folders/19x7jctVrO1hFf8ty0urW5wb_Z8Y8KY5f?usp=sharing" target="_blank"><span class="dot dot-yellow"></span><span class="link-url">Google Drive (IPTV Folder)</span></a><a class="link-item" href="https://mega.nz/folder/WQ4CDDxB#IJazt3cpGCrQH3h8hRi7NQ" target="_blank"><span class="dot dot-yellow"></span><span class="link-url">Mega.nz (IPTV Folder)</span></a></div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 4: INTERNATIONAL MOVIE & LIVE TV
+════════════════════════════════════════════ -->
+<div class="section" id="sec-intl">
+  <div class="section-header">
+    <span class="section-icon">🌍</span>
+    <div class="section-title-text">
+      <h2>International Movie &amp; Live TV</h2>
+      <p>Free Streaming · Online Movies · Live TV Channels</p>
+    </div>
+  </div>
+  <div class="cards-grid" id="grid-intl">
+
+    <div class="card sec-intl" data-name="fmovies 123movies streamboox"><div class="card-name">🎬 MOVIE STREAMING</div>
+      <a class="link-item" href="http://m4ufree.tv" target="_blank"><span class="dot dot-pink"></span><span class="link-url">http://m4ufree.tv</span></a>
+      <a class="link-item" href="https://fmovies.to" target="_blank"><span class="dot dot-pink"></span><span class="link-url">https://fmovies.to</span></a>
+      <a class="link-item" href="https://fmovies.wtf" target="_blank"><span class="dot dot-pink"></span><span class="link-url">https://fmovies.wtf</span></a>
+      <a class="link-item" href="https://ww3.123movies.la" target="_blank"><span class="dot dot-pink"></span><span class="link-url">https://ww3.123movies.la</span></a>
+      <a class="link-item" href="https://ww2.123movies.la" target="_blank"><span class="dot dot-pink"></span><span class="link-url">https://ww2.123movies.la</span></a>
+      <a class="link-item" href="https://streamboox.com" target="_blank"><span class="dot dot-pink"></span><span class="link-url">https://streamboox.com</span></a>
+      <a class="link-item" href="http://app.moviestream.online" target="_blank"><span class="dot dot-pink"></span><span class="link-url">http://app.moviestream.online</span></a>
+      <a class="link-item" href="https://tubitv.com" target="_blank"><span class="dot dot-pink"></span><span class="link-url">https://tubitv.com</span></a>
+      <a class="link-item" href="https://www1.putlocker.cl" target="_blank"><span class="dot dot-pink"></span><span class="link-url">https://www1.putlocker.cl</span></a>
+      <a class="link-item" href="https://gostream.site" target="_blank"><span class="dot dot-pink"></span><span class="link-url">https://gostream.site</span></a>
+      <a class="link-item" href="http://losmovies.fun" target="_blank"><span class="dot dot-pink"></span><span class="link-url">http://losmovies.fun</span></a>
+      <a class="link-item" href="https://xmovies8.pw" target="_blank"><span class="dot dot-pink"></span><span class="link-url">https://xmovies8.pw</span></a>
+      <a class="link-item" href="http://vexmovies.org" target="_blank"><span class="dot dot-pink"></span><span class="link-url">http://vexmovies.org</span></a>
+      <a class="link-item" href="https://wwv.solarmovie.one" target="_blank"><span class="dot dot-pink"></span><span class="link-url">https://wwv.solarmovie.one</span></a>
+      <a class="link-item" href="https://afdah.info" target="_blank"><span class="dot dot-pink"></span><span class="link-url">https://afdah.info</span></a>
+      <a class="link-item" href="https://www.uwatchfree.is" target="_blank"><span class="dot dot-pink"></span><span class="link-url">https://www.uwatchfree.is</span></a>
+      <a class="link-item" href="https://www.watchmovies7.com.pk" target="_blank"><span class="dot dot-pink"></span><span class="link-url">https://www.watchmovies7.com.pk</span></a>
+      <a class="link-item" href="https://123movies.com.pk" target="_blank"><span class="dot dot-pink"></span><span class="link-url">https://123movies.com.pk</span></a>
+      <a class="link-item" href="http://123moviesgo.ga" target="_blank"><span class="dot dot-pink"></span><span class="link-url">http://123moviesgo.ga</span></a>
+      <a class="link-item" href="https://moviesfoundonline.com" target="_blank"><span class="dot dot-pink"></span><span class="link-url">https://moviesfoundonline.com</span></a>
+      <a class="link-item" href="https://www.yidio.com" target="_blank"><span class="dot dot-pink"></span><span class="link-url">https://www.yidio.com</span></a>
+      <a class="link-item" href="https://www.vudu.com" target="_blank"><span class="dot dot-pink"></span><span class="link-url">https://www.vudu.com</span></a>
+    </div>
+
+    <div class="card sec-intl" data-name="yts yifystream downloadhub hdonline"><div class="card-name">🎬 YTS / DOWNLOAD SITES</div>
+      <a class="link-item" href="https://yts.mx" target="_blank"><span class="dot dot-pink"></span><span class="link-url">https://yts.mx</span></a>
+      <a class="link-item" href="https://yts.ms" target="_blank"><span class="dot dot-pink"></span><span class="link-url">https://yts.ms</span></a>
+      <a class="link-item" href="https://yifystream.xyz" target="_blank"><span class="dot dot-pink"></span><span class="link-url">https://yifystream.xyz</span></a>
+      <a class="link-item" href="https://downloadhub.kim" target="_blank"><span class="dot dot-pink"></span><span class="link-url">https://downloadhub.kim</span></a>
+      <a class="link-item" href="https://w7.hdonline.eu" target="_blank"><span class="dot dot-pink"></span><span class="link-url">https://w7.hdonline.eu</span></a>
+      <a class="link-item" href="https://torrentz2movies.xyz" target="_blank"><span class="dot dot-pink"></span><span class="link-url">https://torrentz2movies.xyz</span></a>
+      <a class="link-item" href="https://123tvstream.club" target="_blank"><span class="dot dot-pink"></span><span class="link-url">https://123tvstream.club</span></a>
+    </div>
+
+    <div class="card sec-intl" data-name="einthusan zengatv south asia"><div class="card-name">🌏 SOUTH ASIAN CONTENT</div>
+      <a class="link-item" href="https://einthusan.tv" target="_blank"><span class="dot dot-pink"></span><span class="link-url">https://einthusan.tv</span></a>
+      <a class="link-item" href="http://www.zengatv.com" target="_blank"><span class="dot dot-pink"></span><span class="link-url">http://www.zengatv.com</span></a>
+    </div>
+
+    <div class="card sec-intl" data-name="wwitv filmon giniko freeintertv live tv international"><div class="card-name">📺 INTERNATIONAL LIVE TV</div>
+      <a class="link-item" href="https://wwitv.com" target="_blank"><span class="dot dot-pink"></span><span class="link-url">https://wwitv.com</span></a>
+      <a class="link-item" href="https://www.filmon.tv" target="_blank"><span class="dot dot-pink"></span><span class="link-url">https://www.filmon.tv</span></a>
+      <a class="link-item" href="http://www.giniko.com/watch-all-channels.php" target="_blank"><span class="dot dot-pink"></span><span class="link-url">giniko.com/watch-all-channels.php</span></a>
+      <a class="link-item" href="http://www.freeintertv.com/view" target="_blank"><span class="dot dot-pink"></span><span class="link-url">freeintertv.com/view</span></a>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 5: BD ISP LIST
+════════════════════════════════════════════ -->
+<div class="section" id="sec-isp">
+  <div class="section-header">
+    <span class="section-icon">🔗</span>
+    <div class="section-title-text">
+      <h2>BD ISP Media FTP &amp; Live TV Servers List</h2>
+      <p>External BDIX Server Lists &amp; Resources</p>
+    </div>
+  </div>
+  <div class="cards-grid" id="grid-isp">
+
+    <div class="card sec-isp" data-name="ispnalita rialms bdix server list react"><div class="card-name">📋 BDIX SERVER LIST TOOLS</div>
+      <a class="link-item" href="https://ispnalita.blogspot.com" target="_blank"><span class="dot dot-green"></span><span class="link-url">ispnalita.blogspot.com</span></a>
+      <a class="link-item" href="https://rialms.bitbucket.io/isp/NISP.html" target="_blank"><span class="dot dot-green"></span><span class="link-url">rialms.bitbucket.io/isp/NISP.html</span></a>
+      <a class="link-item" href="https://bdix-server-list-react.netlify.app" target="_blank"><span class="dot dot-green"></span><span class="link-url">bdix-server-list-react.netlify.app</span></a>
+      <a class="link-item" href="http://www.bdixtools.com" target="_blank"><span class="dot dot-green"></span><span class="link-url">bdixtools.com</span></a>
+      <a class="link-item" href="http://pollybd.com" target="_blank"><span class="dot dot-green"></span><span class="link-url">pollybd.com</span></a>
+      <a class="link-item" href="https://bdix.website" target="_blank"><span class="dot dot-green"></span><span class="link-url">bdix.website</span></a>
+      <a class="link-item" href="https://bdixftpservers.com" target="_blank"><span class="dot dot-green"></span><span class="link-url">bdixftpservers.com</span></a>
+      <a class="link-item" href="https://kbexpressbd.com/server" target="_blank"><span class="dot dot-green"></span><span class="link-url">kbexpressbd.com/server</span></a>
+    </div>
+
+    <div class="card sec-isp" data-name="pcbuilderbd mybdix technewssources banglanewsexpress"><div class="card-name">📰 BLOGS &amp; ARTICLES</div>
+      <a class="link-item" href="https://www.pcbuilderbd.com/networking/best-bdix-ftp-server-list-bd" target="_blank"><span class="dot dot-green"></span><span class="link-url">pcbuilderbd.com (BDIX FTP List)</span></a>
+      <a class="link-item" href="https://mybdix.blogspot.com" target="_blank"><span class="dot dot-green"></span><span class="link-url">mybdix.blogspot.com</span></a>
+      <a class="link-item" href="https://technewssources.com/bdix-ftp-server-list-update" target="_blank"><span class="dot dot-green"></span><span class="link-url">technewssources.com</span></a>
+      <a class="link-item" href="https://banglanewsexpress.com/best-ftp-servers-in-bangladesh-ftp-200-high" target="_blank"><span class="dot dot-green"></span><span class="link-url">banglanewsexpress.com</span></a>
+      <a class="link-item" href="https://techaid24.com/best-ftp-servers-in-bangladesh" target="_blank"><span class="dot dot-green"></span><span class="link-url">techaid24.com</span></a>
+      <a class="link-item" href="https://trickbd.com/broadband-tricks/650772" target="_blank"><span class="dot dot-green"></span><span class="link-url">trickbd.com</span></a>
+      <a class="link-item" href="https://desh24.com/bdix-ftp-server-list" target="_blank"><span class="dot dot-green"></span><span class="link-url">desh24.com</span></a>
+      <a class="link-item" href="https://protikit.blogspot.com/2021/01/best-ftp-server-site-list-2021_18.html" target="_blank"><span class="dot dot-green"></span><span class="link-url">protikit.blogspot.com (2021)</span></a>
+      <a class="link-item" href="https://okmovieslink.blogspot.com/2020/06/best-ftp-server-in-bangladesh.html" target="_blank"><span class="dot dot-green"></span><span class="link-url">okmovieslink.blogspot.com</span></a>
+      <a class="link-item" href="https://www.exosbd.com/all-ftp-servers-and-live-tv-servers-list-of-bangladesh" target="_blank"><span class="dot dot-green"></span><span class="link-url">exosbd.com (Full List)</span></a>
+    </div>
+
+    <div class="card sec-isp" data-name="sohagfx rioctg everythinginherenet mkislamsworld old blogs"><div class="card-name">📰 OLDER RESOURCES</div>
+      <a class="link-item" href="https://rioctg.blogspot.com/2018/03/movie-server.html" target="_blank"><span class="dot dot-green"></span><span class="link-url">rioctg.blogspot.com</span></a>
+      <a class="link-item" href="https://sohagfx.blogspot.com/2018/08/bdix-and-ftp-server-list-in-bangladesh.html" target="_blank"><span class="dot dot-green"></span><span class="link-url">sohagfx.blogspot.com</span></a>
+      <a class="link-item" href="https://sohagfx.blogspot.com/2018/08/bdix-movie-server.html" target="_blank"><span class="dot dot-green"></span><span class="link-url">sohagfx (BDIX Movie Server)</span></a>
+      <a class="link-item" href="http://mkislamsworld.blogspot.com/2017/12/latest-bangladesh-internet-exchange.html" target="_blank"><span class="dot dot-green"></span><span class="link-url">mkislamsworld.blogspot.com</span></a>
+      <a class="link-item" href="https://eelectromagic.blogspot.com/2015/01/list-of-biggest-bdix-ftp-servers.html" target="_blank"><span class="dot dot-green"></span><span class="link-url">eelectromagic.blogspot.com (2015)</span></a>
+      <a class="link-item" href="https://everythinginherenet.blogspot.com/2018/05/bdix-server-list-2018.html" target="_blank"><span class="dot dot-green"></span><span class="link-url">everythinginherenet.blogspot.com</span></a>
+      <a class="link-item" href="http://itbdix.blogspot.com" target="_blank"><span class="dot dot-green"></span><span class="link-url">itbdix.blogspot.com</span></a>
+      <a class="link-item" href="https://nablinks.blogspot.com/2019/03/bd-best-ftp-sites.html" target="_blank"><span class="dot dot-green"></span><span class="link-url">nablinks.blogspot.com</span></a>
+    </div>
+
+    <div class="card sec-isp" data-name="google sites bdix spreadsheet pastebin"><div class="card-name">📊 SPREADSHEETS &amp; DATA</div>
+      <a class="link-item" href="https://docs.google.com/spreadsheets/d/1joKjNdAOYXQ7p6eXvYgCyd8BuwZ9XZUiH1JDghVCY0Y/edit#gid=1334964284" target="_blank"><span class="dot dot-green"></span><span class="link-url">Google Spreadsheet (BDIX List)</span></a>
+      <a class="link-item" href="https://pastebin.com/ERmvErSB" target="_blank"><span class="dot dot-green"></span><span class="link-url">pastebin.com/ERmvErSB</span></a>
+      <a class="link-item" href="https://sites.google.com/view/bdixftpserverbd" target="_blank"><span class="dot dot-green"></span><span class="link-url">sites.google.com/view/bdixftpserverbd</span></a>
+      <a class="link-item" href="https://sites.google.com/site/bdixftp" target="_blank"><span class="dot dot-green"></span><span class="link-url">sites.google.com/site/bdixftp</span></a>
+      <a class="link-item" href="https://sites.google.com/view/musabd" target="_blank"><span class="dot dot-green"></span><span class="link-url">sites.google.com/view/musabd</span></a>
+      <a class="link-item" href="https://bdftpserver.doodlekit.com" target="_blank"><span class="dot dot-green"></span><span class="link-url">bdftpserver.doodlekit.com</span></a>
+      <a class="link-item" href="https://bdftpserver.weebly.com" target="_blank"><span class="dot dot-green"></span><span class="link-url">bdftpserver.weebly.com</span></a>
+      <a class="link-item" href="https://fnfbdm.weebly.com" target="_blank"><span class="dot dot-green"></span><span class="link-url">fnfbdm.weebly.com</span></a>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 6: SPEED TEST
+════════════════════════════════════════════ -->
+<div class="section" id="sec-speed">
+  <div class="section-header">
+    <span class="section-icon">⚡</span>
+    <div class="section-title-text">
+      <h2>BDIX &amp; Internet Speed Test</h2>
+      <p>Speed Test · IP Tools · ISP Check</p>
+    </div>
+  </div>
+  <div class="cards-grid" id="grid-speed">
+
+    <div class="card sec-speed" data-name="speedtest fast openspeedtest speedtest.com.sg"><div class="card-name">⚡ SPEED TEST SITES</div>
+      <a class="link-item" href="https://www.speedtest.net" target="_blank"><span class="dot dot-orange"></span><span class="link-url">https://www.speedtest.net</span></a>
+      <a class="link-item" href="https://fast.com" target="_blank"><span class="dot dot-orange"></span><span class="link-url">https://fast.com</span></a>
+      <a class="link-item" href="http://www.speedtest.com.sg" target="_blank"><span class="dot dot-orange"></span><span class="link-url">http://www.speedtest.com.sg</span></a>
+      <a class="link-item" href="http://openspeedtest.com" target="_blank"><span class="dot dot-orange"></span><span class="link-url">http://openspeedtest.com</span></a>
+      <a class="link-item" href="https://speedtest.com.bd" target="_blank"><span class="dot dot-orange"></span><span class="link-url">https://speedtest.com.bd</span></a>
+      <a class="link-item" href="http://speedtest.googlefiber.net" target="_blank"><span class="dot dot-orange"></span><span class="link-url">speedtest.googlefiber.net</span></a>
+      <a class="link-item" href="https://testmy.net" target="_blank"><span class="dot dot-orange"></span><span class="link-url">https://testmy.net</span></a>
+      <a class="link-item" href="https://speedof.me" target="_blank"><span class="dot dot-orange"></span><span class="link-url">https://speedof.me</span></a>
+      <a class="link-item" href="https://speedtest.xfinity.com" target="_blank"><span class="dot dot-orange"></span><span class="link-url">https://speedtest.xfinity.com</span></a>
+      <a class="link-item" href="https://www.nperf.com" target="_blank"><span class="dot dot-orange"></span><span class="link-url">https://www.nperf.com</span></a>
+      <a class="link-item" href="https://speedsmart.net" target="_blank"><span class="dot dot-orange"></span><span class="link-url">https://speedsmart.net</span></a>
+      <a class="link-item" href="http://ovh.net" target="_blank"><span class="dot dot-orange"></span><span class="link-url">http://ovh.net</span></a>
+    </div>
+
+    <div class="card sec-speed" data-name="bdix speed test custom zeroftp mcnbd vision"><div class="card-name">⚡ BDIX CUSTOM SPEED TEST</div>
+      <a class="link-item" href="http://zeroftp.speedtestcustom.com" target="_blank"><span class="dot dot-orange"></span><span class="link-url">zeroftp.speedtestcustom.com</span></a>
+      <a class="link-item" href="http://mcnbd.speedtestcustom.com" target="_blank"><span class="dot dot-orange"></span><span class="link-url">mcnbd.speedtestcustom.com</span></a>
+      <a class="link-item" href="http://speed.visiontechnologiesltd.com" target="_blank"><span class="dot dot-orange"></span><span class="link-url">speed.visiontechnologiesltd.com</span></a>
+    </div>
+
+    <div class="card sec-speed" data-name="ip address check realip myip ipv6 whoer whatismyip ipleak"><div class="card-name">🌐 IP &amp; CONNECTION TOOLS</div>
+      <a class="link-item" href="https://realip.info" target="_blank"><span class="dot dot-blue"></span><span class="link-url">https://realip.info</span></a>
+      <a class="link-item" href="https://www.myip.com" target="_blank"><span class="dot dot-blue"></span><span class="link-url">https://www.myip.com</span></a>
+      <a class="link-item" href="https://ipv6-test.com" target="_blank"><span class="dot dot-blue"></span><span class="link-url">https://ipv6-test.com</span></a>
+      <a class="link-item" href="https://ipv6test.google.com" target="_blank"><span class="dot dot-blue"></span><span class="link-url">https://ipv6test.google.com</span></a>
+      <a class="link-item" href="https://whoer.net" target="_blank"><span class="dot dot-blue"></span><span class="link-url">https://whoer.net</span></a>
+      <a class="link-item" href="https://whatismyipaddress.com" target="_blank"><span class="dot dot-blue"></span><span class="link-url">https://whatismyipaddress.com</span></a>
+      <a class="link-item" href="https://www.canyouseeme.org" target="_blank"><span class="dot dot-blue"></span><span class="link-url">https://www.canyouseeme.org</span></a>
+      <a class="link-item" href="https://ftptest.net" target="_blank"><span class="dot dot-blue"></span><span class="link-url">https://ftptest.net</span></a>
+      <a class="link-item" href="https://ipleak.net" target="_blank"><span class="dot dot-blue"></span><span class="link-url">https://ipleak.net</span></a>
+    </div>
+
+    <div class="card sec-speed" data-name="isp check whoismyisp spyber router-network"><div class="card-name">🏢 ISP CHECK TOOLS</div>
+      <a class="link-item" href="https://www.whoismyisp.org" target="_blank"><span class="dot dot-blue"></span><span class="link-url">https://www.whoismyisp.org</span></a>
+      <a class="link-item" href="https://router-network.com/tools/what-is-my-isp" target="_blank"><span class="dot dot-blue"></span><span class="link-url">router-network.com/tools/what-is-my-isp</span></a>
+      <a class="link-item" href="https://www.spyber.com" target="_blank"><span class="dot dot-blue"></span><span class="link-url">https://www.spyber.com</span></a>
+    </div>
+
+  </div>
+</div>
+
+</main>
+
+<script>
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('sec-' + id).classList.add('active');
+  event.target.classList.add('active');
+  document.getElementById('searchInput').value = '';
+  // reset hidden
+  document.querySelectorAll('.card').forEach(c => c.classList.remove('hidden'));
+}
+
+function filterCards() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const active = document.querySelector('.section.active');
+  if (!active) return;
+  const cards = active.querySelectorAll('.card');
+  cards.forEach(card => {
+    const text = (card.getAttribute('data-name') || '') + ' ' + card.innerText.toLowerCase();
+    card.classList.toggle('hidden', q.length > 0 && !text.includes(q));
+  });
+}
+</script>
+
+<!-- dot-pink style (used inline) -->
+<style>
+.dot-pink { background: #f472b6; box-shadow: 0 0 4px #f472b6; }
+</style>
+
+</body>
+</html>
